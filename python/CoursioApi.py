@@ -85,6 +85,25 @@ class CoursioApi:
 
         return self.response()
 
+    # delete method
+    def delete(self, endpoint, object_id = 0):
+        # cast object_id to int
+        object_id = int(object_id)
+
+        # if object_id exists, add to endpoint
+        if (object_id != 0):
+            endpoint = endpoint + '/' + str(object_id)
+        else:
+            raise Exception('Object ID is required')
+
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'DELETE'
+
+        return self.response()
+
     # execute and get response
     def response(self):
 
