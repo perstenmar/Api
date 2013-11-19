@@ -17,7 +17,7 @@ class CoursioApi:
         self.publicKey = publicKey
         self.privateKey = privateKey
         self.salt = salt
-        self.baseUrl = 'http://api.coursio.dev'
+        self.baseUrl = 'https://api.coursio.com'
         self.request = ''
         self.headers = {}
         self.target = ''
