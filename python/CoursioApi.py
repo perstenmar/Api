@@ -72,6 +72,19 @@ class CoursioApi:
 
         return self.response()
 
+    # post method
+    def post(self, endpoint, data):
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'POST'
+
+        # set data
+        self.body = data
+
+        return self.response()
+
     # execute and get response
     def response(self):
 
