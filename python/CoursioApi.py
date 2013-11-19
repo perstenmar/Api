@@ -136,4 +136,4 @@ class CoursioApi:
         )
 
         # return json from server
-        return content
+        return json.loads(content)
