@@ -13,7 +13,7 @@ public class CoursioApi
 	protected String salt;
 	protected String publicKey;
 	protected String privateKey;
-	protected String baseUrl = "http://api.coursio.dev/v1/";
+	protected String baseUrl = "https://api.coursio.com/v1/";
 	
     public CoursioApi(String publicKey, String privateKey, String salt) throws Exception
     {
