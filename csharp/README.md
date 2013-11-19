@@ -10,7 +10,7 @@ namespace CoursioTest
 	{
 		public static void Main (string[] args)
 		{
-			var API = new CoursioApi (YOUR_PUBLIC_KEY, YOUR_PRIVATE_KEY);
+			var API = new CoursioApi (YOUR_PUBLIC_KEY, YOUR_PRIVATE_KEY, YOUR_SALT);
 
 			string result;
 
