@@ -145,5 +145,5 @@ class CoursioApi
         curl_close($this->request);
 
         return json_decode($result, true);
-	}
+    }
 }
