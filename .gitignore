@@ -1,3 +1,5 @@
 /.idea
 .php-version
 csharp/test
+
+*.pyc
