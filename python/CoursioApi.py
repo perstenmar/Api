@@ -55,6 +55,25 @@ class CoursioApi:
         # setup http
         self.h = http.Http()
 
+    # delete method
+    def delete(self, endpoint, object_id = 0):
+        # cast object_id to int
+        object_id = int(object_id)
+
+        # if object_id exists, add to endpoint
+        if (object_id != 0):
+            endpoint = endpoint + '/' + str(object_id)
+        else:
+            raise Exception('Object ID is required')
+
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'DELETE'
+
+        return self.response()
+
     # get method
     def get(self, endpoint, object_id = 0):
         # cast object_id to int
@@ -69,6 +88,19 @@ class CoursioApi:
 
         # set request-method
         self.method = 'GET'
+
+        return self.response()
+
+    # post method
+    def post(self, endpoint, data):
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'POST'
+
+        # set data
+        self.body = data
 
         return self.response()
 
@@ -89,38 +121,6 @@ class CoursioApi:
 
         # set request-method
         self.method = 'PUT'
-
-        return self.response()
-
-    # post method
-    def post(self, endpoint, data):
-        # prepare for call
-        self.prepare(endpoint)
-
-        # set request-method
-        self.method = 'POST'
-
-        # set data
-        self.body = data
-
-        return self.response()
-
-    # delete method
-    def delete(self, endpoint, object_id = 0):
-        # cast object_id to int
-        object_id = int(object_id)
-
-        # if object_id exists, add to endpoint
-        if (object_id != 0):
-            endpoint = endpoint + '/' + str(object_id)
-        else:
-            raise Exception('Object ID is required')
-
-        # prepare for call
-        self.prepare(endpoint)
-
-        # set request-method
-        self.method = 'DELETE'
 
         return self.response()
 
