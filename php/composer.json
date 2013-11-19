@@ -1,0 +1,19 @@
+{
+    "name": "coursio/php-api-wrapper",
+    "description": "PHP wrapper for Coursio API",
+    "authors": [
+        {
+            "name": "Vladimir Osipov",
+            "email": "vladimir.osipov@coursio.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "CoursioApi\\": "src/"
+        }
+    }
+}

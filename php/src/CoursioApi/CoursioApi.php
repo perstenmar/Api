@@ -1,5 +1,7 @@
 <?php
 
+namespace CoursioApi;
+
 class CoursioApi
 {
     protected $request;
