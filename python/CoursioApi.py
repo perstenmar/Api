@@ -55,6 +55,7 @@ class CoursioApi:
         # setup http
         self.h = http.Http()
 
+    # get method
     def get(self, endpoint, object_id = 0):
         # cast object_id to int
         object_id = int(object_id)
