@@ -25,14 +25,14 @@ class CoursioApi
      * API GET wrapper
      *
      * @param $endpoint
-     * @param null $objectId
+     * @param int $objectId
      * @return mixed
      */
-    public function Get($endpoint, $objectId = null)
+    public function Get($endpoint, $objectId = 0)
     {
         if ($objectId)
         {
-            $endpoint .= '/' . $endpoint;
+            $endpoint .= '/' . $objectId;
         }
         $this->Prepare($endpoint);
 
@@ -70,7 +70,7 @@ class CoursioApi
     {
         if ($objectId)
         {
-            $endpoint .= '/' . $endpoint;
+            $endpoint .= '/' . $objectId;
         }
         $this->Prepare($endpoint);
 
@@ -84,18 +84,18 @@ class CoursioApi
      * API DELETE wrapper
      *
      * @param $endpoint
-     * @param $objectId
+     * @param int $objectId
      * @return mixed
      * @throws Exception
      */
-    public function Delete($endpoint, $objectId)
+    public function Delete($endpoint, $objectId = 0)
     {
         if (!$objectId)
         {
             throw new Exception('Object ID is required');
         }
 
-        $this->Prepare($endpoint);
+        $this->Prepare($endpoint . '/' . $objectId);
 
         curl_setopt($this->request, CURLOPT_CUSTOMREQUEST, 'DELETE');
 
