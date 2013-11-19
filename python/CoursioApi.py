@@ -72,6 +72,7 @@ class CoursioApi:
 
         return self.response()
 
+    # execute and get response
     def response(self):
 
         # build request and store response and concent in variables
