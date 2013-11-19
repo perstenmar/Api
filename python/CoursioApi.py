@@ -72,6 +72,26 @@ class CoursioApi:
 
         return self.response()
 
+    # put method
+    def put(self, endpoint, object_id, data):
+        # cast object_id to int
+        object_id = int(object_id)
+
+        # if object_id exists, add to endpoint
+        if (object_id != 0):
+            endpoint = endpoint + '/' + str(object_id)
+
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set data
+        self.body = data
+
+        # set request-method
+        self.method = 'PUT'
+
+        return self.response()
+
     # post method
     def post(self, endpoint, data):
         # prepare for call
