@@ -2,7 +2,7 @@
 from CoursioApi import CoursioApi
 
 # Initate class with PUBLIC_KEY, PRIVATE_KEY and SALT
-coursio = CoursioApi('6bee83c2-75a5-4400-aff3-a3315403b896', '$1$VgoLUt/N$27QP.Z8K8ThiRsTqcNOyV1', 'pepper')
+coursio = CoursioApi('YOUR_PUBLIC_KEY', 'YOUR_PRIVATE_KEY', 'A_SALT_WITH_PEPPER')
 
 # Get all invitations
 #print coursio.get('/v1/invitations');
