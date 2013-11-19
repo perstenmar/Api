@@ -2,3 +2,4 @@
 .php-version
 csharp/test
 php/test
+*.pyc
