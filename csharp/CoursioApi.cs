@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace CoursioTest
+namespace CoursioApi
 {
 	public class CoursioApi
 	{
@@ -13,10 +13,15 @@ namespace CoursioTest
 		protected string salt;
 		protected string publicKey;
 		protected string privateKey;
-		protected string baseUrl = "http://api.coursio.dev/v1/";
+		protected string baseUrl = "https://api.coursio.com/v1/";
 
 		public CoursioApi (string publicKey, string privateKey, string salt = "coursiosalt")
 		{
+			if (publicKey == null || privateKey == null)
+			{
+				throw new System.Exception ("Both public and private key are required.");
+			}
+
 			this.salt = salt;
 			this.publicKey = publicKey;
 			this.privateKey = privateKey;
@@ -29,28 +34,28 @@ namespace CoursioTest
 				endpoint += "/" + objectId.ToString();
 			}
 
-			this.Prepare (endpoint);
-			this.request.Method = "GET";
+			Prepare (endpoint);
+			request.Method = "GET";
 
-			return this.ReadResponse ();
+			return ReadResponse ();
 		}
 
 		public string Post(string endpoint, string jsonString)
 		{
-			this.Prepare (endpoint);
-			this.request.Method = "POST";
+			Prepare (endpoint);
+			request.Method = "POST";
 
 			byte[] byteArray = Encoding.UTF8.GetBytes (jsonString);
 
 			// Set the ContentLength property of the WebRequest.
-			this.request.ContentLength = byteArray.Length;
+			request.ContentLength = byteArray.Length;
 
 			// Write data to the Stream
-			Stream dataStream = this.request.GetRequestStream ();
+			Stream dataStream = request.GetRequestStream ();
 			dataStream.Write (byteArray, 0, byteArray.Length);
 			dataStream.Close ();
 
-			return this.ReadResponse ();
+			return ReadResponse ();
 		}
 
 		public string Put(string endpoint, int objectId, string jsonString)
@@ -61,20 +66,20 @@ namespace CoursioTest
 			}
 			endpoint += "/" + objectId.ToString();
 
-			this.Prepare (endpoint);
-			this.request.Method = "PUT";
+			Prepare (endpoint);
+			request.Method = "PUT";
 
 			byte[] byteArray = Encoding.UTF8.GetBytes (jsonString);
 
 			// Set the ContentLength property of the WebRequest.
-			this.request.ContentLength = byteArray.Length;
+			request.ContentLength = byteArray.Length;
 
 			// Write data to the Stream
-			Stream dataStream = this.request.GetRequestStream ();
+			Stream dataStream = request.GetRequestStream ();
 			dataStream.Write (byteArray, 0, byteArray.Length);
 			dataStream.Close ();
 
-			return this.ReadResponse ();
+			return ReadResponse ();
 		}
 
 		public string Delete(string endpoint, int objectId)
@@ -85,10 +90,10 @@ namespace CoursioTest
 			}
 			endpoint += "/" + objectId.ToString();
 
-			this.Prepare (endpoint);
-			this.request.Method = "DELETE";
+			Prepare (endpoint);
+			request.Method = "DELETE";
 
-			return this.ReadResponse ();
+			return ReadResponse ();
 		}
 
 		protected void Prepare(string endpoint)
@@ -99,28 +104,28 @@ namespace CoursioTest
 			}
 
 			// setup connection to endpoint
-			this.request = WebRequest.Create(this.baseUrl + endpoint);
+			request = WebRequest.Create(baseUrl + endpoint);
 
 			// compute HMAC
 			var enc = Encoding.ASCII;
-			HMACSHA1 hmac = new HMACSHA1(enc.GetBytes(this.privateKey));
+			HMACSHA1 hmac = new HMACSHA1(enc.GetBytes(privateKey));
 			hmac.Initialize();
 
 			var timestamp = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt"); 
-			var signatureString = this.publicKey + timestamp + this.salt;
+			var signatureString = publicKey + timestamp + salt;
 			byte[] buffer = enc.GetBytes(signatureString);
 			var hash = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();
 
-			this.request.Headers ["X-Coursio-apikey"] = this.publicKey;
-			this.request.Headers ["X-Coursio-time"] = timestamp;
-			this.request.Headers ["X-Coursio-random"] = this.salt;
-			this.request.Headers ["X-Coursio-hmac"] = hash;
+			request.Headers ["X-Coursio-apikey"] = publicKey;
+			request.Headers ["X-Coursio-time"] = timestamp;
+			request.Headers ["X-Coursio-random"] = salt;
+			request.Headers ["X-Coursio-hmac"] = hash;
 		}
 
 		protected string ReadResponse()
 		{
 			// Get the response.
-			WebResponse response = this.request.GetResponse ();
+			WebResponse response = request.GetResponse ();
 
 			//	Console.WriteLine (((HttpWebResponse)response).StatusDescription);
 

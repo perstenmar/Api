@@ -17,7 +17,7 @@ class CoursioApi:
         self.publicKey = publicKey
         self.privateKey = privateKey
         self.salt = salt
-        self.baseUrl = 'http://api.coursio.dev'
+        self.baseUrl = 'https://api.coursio.com'
         self.request = ''
         self.headers = {}
         self.target = ''
@@ -38,8 +38,8 @@ class CoursioApi:
 
         hashed = hmac.new(self.privateKey, rawString, sha1)
 
-        # get hmac from calculated hash
-        hmacString = binascii.b2a_base64(hashed.digest())[:-1]
+        # get hmac in hexadecimal from calculated hash
+        hmacString = hashed.hexdigest()
 
         # setup headers
         self.headers = {
@@ -55,6 +55,26 @@ class CoursioApi:
         # setup http
         self.h = http.Http()
 
+    # delete method
+    def delete(self, endpoint, object_id = 0):
+        # cast object_id to int
+        object_id = int(object_id)
+
+        # if object_id exists, add to endpoint
+        if (object_id != 0):
+            endpoint = endpoint + '/' + str(object_id)
+        else:
+            raise Exception('Object ID is required')
+
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'DELETE'
+
+        return self.response()
+
+    # get method
     def get(self, endpoint, object_id = 0):
         # cast object_id to int
         object_id = int(object_id)
@@ -71,6 +91,40 @@ class CoursioApi:
 
         return self.response()
 
+    # post method
+    def post(self, endpoint, data):
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set request-method
+        self.method = 'POST'
+
+        # set data
+        self.body = data
+
+        return self.response()
+
+    # put method
+    def put(self, endpoint, object_id, data):
+        # cast object_id to int
+        object_id = int(object_id)
+
+        # if object_id exists, add to endpoint
+        if (object_id != 0):
+            endpoint = endpoint + '/' + str(object_id)
+
+        # prepare for call
+        self.prepare(endpoint)
+
+        # set data
+        self.body = data
+
+        # set request-method
+        self.method = 'PUT'
+
+        return self.response()
+
+    # execute and get response
     def response(self):
 
         # build request and store response and concent in variables
@@ -82,4 +136,4 @@ class CoursioApi:
         )
 
         # return json from server
-        return content
+        return json.loads(content)
