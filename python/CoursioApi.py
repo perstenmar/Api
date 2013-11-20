@@ -38,8 +38,8 @@ class CoursioApi:
 
         hashed = hmac.new(self.privateKey, rawString, sha1)
 
-        # get hmac from calculated hash
-        hmacString = binascii.b2a_base64(hashed.digest())[:-1]
+        # get hmac in hexadecimal from calculated hash
+        hmacString = hashed.hexdigest()
 
         # setup headers
         self.headers = {
