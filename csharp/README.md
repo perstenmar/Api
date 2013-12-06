@@ -19,6 +19,12 @@ namespace CoursioTest
 
 			result = API.Post ("invitations", "{\"courseId\":\"65\"}");
 			Console.WriteLine (result);
+
+			result = API.Put ("invitations", 1, "{\"courseId\":\"66\"}");
+			Console.WriteLine (result);
+
+			result = API.Delete ("invitations", 1);
+			Console.WriteLine (result);
 		}
 	}
 }
