@@ -111,7 +111,7 @@ namespace CoursioApi
 			HMACSHA1 hmac = new HMACSHA1(enc.GetBytes(privateKey));
 			hmac.Initialize();
 
-			var timestamp = DateTime.Now.ToString(@"MM\/dd\/yyyy h\:mm tt"); 
+			var timestamp = DateTime.Now.ToString(@"MM\/dd\/yyyy hh\:mm"); 
 			var signatureString = publicKey + timestamp + salt;
 			byte[] buffer = enc.GetBytes(signatureString);
 			var hash = BitConverter.ToString(hmac.ComputeHash(buffer)).Replace("-", "").ToLower();
