@@ -40,6 +40,14 @@ namespace CoursioApi
 			return ReadResponse ();
 		}
 
+		public string Get(CoursioEndpointDefinition get)
+		{
+			Prepare(get.TranslatedEndpoint);
+			request.Method = "GET";
+
+			return ReadResponse();
+		}
+
 		public string Post(string endpoint, string jsonString)
 		{
 			Prepare (endpoint);
@@ -56,6 +64,24 @@ namespace CoursioApi
 			dataStream.Close ();
 
 			return ReadResponse ();
+		}
+
+		public string Post(CoursioEndpointDefinition post)
+		{
+			Prepare(post.TranslatedEndpoint);
+			request.Method = "POST";
+
+			byte[] byteArray = Encoding.UTF8.GetBytes(post.RequestJsonPayload);
+
+			// Set the ContentLength property of the WebRequest.
+			request.ContentLength = byteArray.Length;
+
+			// Write data to the Stream
+			Stream dataStream = request.GetRequestStream();
+			dataStream.Write(byteArray, 0, byteArray.Length);
+			dataStream.Close();
+
+			return ReadResponse();
 		}
 
 		public string Put(string endpoint, int objectId, string jsonString)
@@ -82,6 +108,24 @@ namespace CoursioApi
 			return ReadResponse ();
 		}
 
+		public string Put(CoursioEndpointDefinition put)
+		{
+			Prepare(put.TranslatedEndpoint);
+			request.Method = "PUT";
+
+			byte[] byteArray = Encoding.UTF8.GetBytes(put.RequestJsonPayload);
+
+			// Set the ContentLength property of the WebRequest.
+			request.ContentLength = byteArray.Length;
+
+			// Write data to the Stream
+			Stream dataStream = request.GetRequestStream();
+			dataStream.Write(byteArray, 0, byteArray.Length);
+			dataStream.Close();
+
+			return ReadResponse();
+		}
+		
 		public string Delete(string endpoint, int objectId)
 		{
 			if (objectId == 0)
@@ -94,6 +138,14 @@ namespace CoursioApi
 			request.Method = "DELETE";
 
 			return ReadResponse ();
+		}
+		
+		public string Delete(CoursioEndpointDefinition delete)
+		{
+			Prepare(delete.TranslatedEndpoint);
+			request.Method = "DELETE";
+
+			return ReadResponse();
 		}
 
 		protected void Prepare(string endpoint)
